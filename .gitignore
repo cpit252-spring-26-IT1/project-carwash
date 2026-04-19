@@ -47,3 +47,15 @@ buildNumber.properties
 *.iml
 *.iws
 out/
+
+.gradle/
+build/
+local.properties
+.idea/workspace.xml
+.idea/libraries/
+.idea/modules.xml
+.idea/assetWizardSettings.xml
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
