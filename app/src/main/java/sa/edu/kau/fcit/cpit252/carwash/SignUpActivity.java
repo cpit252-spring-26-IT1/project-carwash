@@ -13,6 +13,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText etEmail;
     private EditText etPassword;
     private Button btnSignup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,16 +33,25 @@ public class SignUpActivity extends AppCompatActivity {
                 String email = etEmail.getText().toString().trim();
                 String pass = etPassword.getText().toString().trim();
 
-                if (fName.isEmpty() || lName.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+                if (fName.isEmpty() || lName.isEmpty() ||email.isEmpty() || pass.isEmpty()) {
                     Toast.makeText(SignUpActivity.this, "Please Fill All Fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (DataStore.usersMap.containsKey(email)) {
+                    Toast.makeText(SignUpActivity.this, "Email already exists! Please login.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                User newUser = UserFactory.createUser("CUSTOMER", fName, lName, email, pass);
 
-                User newUser = new Customer(fName, lName, email, pass);
-                DataStore.addUser(newUser);
+                if (newUser != null) {
+                    DataStore.addUser(newUser);
+                    Toast.makeText(SignUpActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
 
-                Toast.makeText(SignUpActivity.this, "Account created successfully", Toast.LENGTH_SHORT).show();
-                finish();
+                else {
+                    Toast.makeText(SignUpActivity.this, "Error creating account", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

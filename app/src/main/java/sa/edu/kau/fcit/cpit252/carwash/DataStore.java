@@ -12,14 +12,19 @@ public class DataStore {
             return;
         }
 
-        User admin = new Owner("Mohammed", "Ahmed", "mohammed@mail.com", "123");
-        User cashier = new Cashier("Ali", "Saleh", "ali_s@mail.com", "123");
-        User khaled = new Customer("Khaled", "Fahad", "khaled@mail.com", "123");
+        User admin = UserFactory.createUser("OWNER", "Mohammed", "Ahmed", "mohammed@mail.com", "123");
+        User cashier = UserFactory.createUser("CASHIER", "Ali", "Saleh", "ali_s@mail.com", "123");
+        User customer = UserFactory.createUser("CUSTOMER", "Khaled", "Fahad", "khaled@mail.com", "123");
 
-        usersMap.put(admin.getEmail(), admin);
-        usersMap.put(cashier.getEmail(), cashier);
-        usersMap.put(khaled.getEmail(), khaled);
-    }
+        if (admin != null){
+            usersMap.put(admin.getEmail(), admin);
+        }
+        if (cashier != null){
+            usersMap.put(cashier.getEmail(), cashier);
+        }
+        if (customer != null){
+             usersMap.put(customer.getEmail(), customer);
+    }}
 
     public static User login(String email, String password) {
         User user = usersMap.get(email);
@@ -30,6 +35,8 @@ public class DataStore {
     }
 
     public static void addUser(User newUser) {
-        usersMap.put(newUser.getEmail(), newUser);
+        if (newUser != null) {
+            usersMap.put(newUser.getEmail(), newUser);
+        }
     }
 }
