@@ -1,10 +1,13 @@
-package sa.edu.kau.fcit.cpit252.carwash;
+package sa.edu.kau.fcit.cpit252.carwash.models;
 
 public abstract class User {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+
+    public User(){
+    }
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;

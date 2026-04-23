@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="#FFFFFF"
-    tools:context=".OwnerActivity">
+    tools:context=".activities.OwnerActivity">
 
     <TextView
         android:id="@+id/tvWelcome"

@@ -1,7 +1,10 @@
-package sa.edu.kau.fcit.cpit252.carwash;
+package sa.edu.kau.fcit.cpit252.carwash.models;
 
 public class Customer extends User{
     private int loyaltyPoints;
+
+    public Customer(){
+    }
 
     public Customer(String firstName, String lastName, String email, String password) {
         super(firstName, lastName, email, password);

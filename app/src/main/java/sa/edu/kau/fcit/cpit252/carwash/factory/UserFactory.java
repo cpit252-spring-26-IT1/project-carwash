@@ -1,4 +1,9 @@
-package sa.edu.kau.fcit.cpit252.carwash;
+package sa.edu.kau.fcit.cpit252.carwash.factory;
+
+import sa.edu.kau.fcit.cpit252.carwash.models.Cashier;
+import sa.edu.kau.fcit.cpit252.carwash.models.Customer;
+import sa.edu.kau.fcit.cpit252.carwash.models.Owner;
+import sa.edu.kau.fcit.cpit252.carwash.models.User;
 
 public class UserFactory {
 

@@ -1,17 +1,20 @@
-package sa.edu.kau.fcit.cpit252.carwash;
+package sa.edu.kau.fcit.cpit252.carwash.activities;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-public class CustomerActivity extends AppCompatActivity {
+import sa.edu.kau.fcit.cpit252.carwash.R;
+
+public class OwnerActivity extends AppCompatActivity {
 
     private TextView tvWelcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer);
+        setContentView(R.layout.activity_owner);
 
         tvWelcome = findViewById(R.id.tvWelcome);
 
@@ -19,6 +22,5 @@ public class CustomerActivity extends AppCompatActivity {
 
         if (userName != null) {
             tvWelcome.setText("Welcome, " + userName);
-        }
-    }
+    }}
 }
