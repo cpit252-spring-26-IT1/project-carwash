@@ -1,5 +1,7 @@
 package sa.edu.kau.fcit.cpit252.carwash.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +11,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
 import sa.edu.kau.fcit.cpit252.carwash.R;
 import sa.edu.kau.fcit.cpit252.carwash.bridge.*;
 
@@ -50,8 +54,10 @@ public class CustomerActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 updatePrices(position);
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         cardFull.setOnClickListener(v -> {
@@ -83,28 +89,50 @@ public class CustomerActivity extends AppCompatActivity {
             }
         });
 
-        btnMyOrders.setOnClickListener(v -> {
-            Intent intent = new Intent(CustomerActivity.this, OrdersActivity.class);
-            startActivity(intent);
+        btnMyOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomerActivity.this, OrdersActivity.class);
+                startActivity(intent);
+            }
         });
 
-        btnLogout.setOnClickListener(v -> {
-            new android.app.AlertDialog.Builder(CustomerActivity.this)
-                    .setTitle("Logout")
-                    .setMessage("Are you sure you want to logout?")
-                    .setPositiveButton("Yes", (dialog, which) -> finish())
-                    .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                    .show();
-        });
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(CustomerActivity.this).setTitle("Logout")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(android.content.DialogInterface dialog, int which) {
+                                Intent intent = new Intent(CustomerActivity.this, MainActivity.class);
+                                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(android.content.DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        }
+        );
     }
 
     private void updatePrices(int carPosition) {
         VehiclePricing pricing;
-        if (carPosition == 0)      pricing = new SedanPricing();
-        else if (carPosition == 1) pricing = new SUVPricing();
-        else                       pricing = new CrossoverPricing();
+        if (carPosition == 0)
+            pricing = new SedanPricing();
 
-        WashPackage full     = new FullServicePackage(pricing);
+        else if (carPosition == 1)
+            pricing = new SUVPricing();
+        else
+            pricing = new CrossoverPricing();
+
+        WashPackage full = new FullServicePackage(pricing);
         WashPackage exterior = new ExteriorPackage(pricing);
         WashPackage interior = new InteriorPackage(pricing);
 
