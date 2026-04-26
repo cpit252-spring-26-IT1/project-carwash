@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="#F8F9FA"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,15 +13,19 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tvWelcomeCustomer"
                     android:layout_width="wrap_content"
@@ -28,6 +34,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="#2D3436"/>
+
                 <TextView
                     android:id="@+id/tvLoyaltyPoints"
                     android:layout_width="wrap_content"
@@ -41,26 +48,25 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/btnMyOrders"
-                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Orders"
                     android:textColor="#0984E3"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
+
                 <Button
                     android:id="@+id/btnLogout"
-                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Logout"
                     android:textColor="#D63031"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,16 +84,20 @@
             android:background="@android:drawable/btn_dropdown"/>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardFull"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="3dp">
+            app:cardElevation="3dp"
+            app:cardUseCompatPadding="true">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,6 +105,7 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="#0984E3"/>
+
                 <TextView
                     android:id="@+id/tvPriceFull"
                     android:layout_width="wrap_content"
@@ -108,16 +119,20 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardOutside"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="3dp">
+            app:cardElevation="3dp"
+            app:cardUseCompatPadding="true">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,6 +140,7 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="#27AE60"/>
+
                 <TextView
                     android:id="@+id/tvPriceOutside"
                     android:layout_width="wrap_content"
@@ -138,16 +154,20 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardInside"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="3dp">
+            app:cardElevation="3dp"
+            app:cardUseCompatPadding="true">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -155,6 +175,7 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="#8E44AD"/>
+
                 <TextView
                     android:id="@+id/tvPriceInside"
                     android:layout_width="wrap_content"
@@ -178,4 +199,4 @@
             app:cornerRadius="10dp"/>
 
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

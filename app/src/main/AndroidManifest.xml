@@ -21,13 +21,13 @@
             android:exported="false" />
         <activity
             android:name=".activities.OrdersActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.CashierActivity"
             android:exported="false" />
         <activity
             android:name=".activities.CustomerActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.OwnerActivity"
             android:exported="false" />
