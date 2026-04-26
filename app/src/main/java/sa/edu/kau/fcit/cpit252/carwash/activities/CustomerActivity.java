@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import sa.edu.kau.fcit.cpit252.carwash.R;
+import sa.edu.kau.fcit.cpit252.carwash.bridge.*;
+
+
 import android.graphics.Color;
 
 public class CustomerActivity extends AppCompatActivity {
@@ -38,7 +41,7 @@ public class CustomerActivity extends AppCompatActivity {
         btnMyOrders = findViewById(R.id.btnMyOrders);
         btnLogout = findViewById(R.id.btnLogout);
 
-        String[] cars = {"Sedan", "SUV", "Truck"};
+        String[] cars = {"Sedan", "SUV", "Crossover"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, cars);
         spinnerCarType.setAdapter(adapter);
 
@@ -96,15 +99,20 @@ public class CustomerActivity extends AppCompatActivity {
     }
 
     private void updatePrices(int carPosition) {
-        double multiplier;
-        if (carPosition == 0) multiplier = 1.0;
-        else if (carPosition == 1) multiplier = 1.5;
-        else multiplier = 2.0;
+        VehiclePricing pricing;
+        if (carPosition == 0)      pricing = new SedanPricing();
+        else if (carPosition == 1) pricing = new SUVPricing();
+        else                       pricing = new CrossoverPricing();
 
-        tvPriceFull.setText("SAR " + (200 * multiplier));
-        tvPriceOutside.setText("SAR " + (100 * multiplier));
-        tvPriceInside.setText("SAR " + (80 * multiplier));
+        WashPackage full     = new FullServicePackage(pricing);
+        WashPackage exterior = new ExteriorPackage(pricing);
+        WashPackage interior = new InteriorPackage(pricing);
+
+        tvPriceFull.setText("SAR " + full.getPrice());
+        tvPriceOutside.setText("SAR " + exterior.getPrice());
+        tvPriceInside.setText("SAR " + interior.getPrice());
     }
+
 
     private void highlightCard(CardView selected) {
         cardFull.setCardBackgroundColor(Color.WHITE);
