@@ -82,9 +82,11 @@ public class CustomerActivity extends AppCompatActivity {
             if (selectedPackage.isEmpty()) {
                 Toast.makeText(CustomerActivity.this, "Please select a package first!", Toast.LENGTH_SHORT).show();
             } else {
+                String selectedVehicle = spinnerCarType.getSelectedItem().toString();
                 Intent intent = new Intent(CustomerActivity.this, PaymentActivity.class);
                 intent.putExtra("price", selectedPrice);
                 intent.putExtra("package_name", selectedPackage);
+                intent.putExtra("vehicle", selectedVehicle);
                 startActivity(intent);
             }
         });

@@ -1,6 +1,7 @@
 package sa.edu.kau.fcit.cpit252.carwash.activities;
 
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +45,16 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (!isValidName(fName) || !isValidName(lName)) {
+                    Toast.makeText(SignUpActivity.this, "Names can only contain letters", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isValidEmail(email)) {
+                    Toast.makeText(SignUpActivity.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 FirebaseAuth mAuth = DatabaseManager.getInstance().getAuth();
                 FirebaseFirestore db = DatabaseManager.getInstance().getDb();
 
@@ -70,5 +81,12 @@ public class SignUpActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+    private boolean isValidName(String name) {
+        return name != null && name.matches("^[a-zA-Z]+$");
+    }
+
+    private boolean isValidEmail(String email) {
+        return email != null && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

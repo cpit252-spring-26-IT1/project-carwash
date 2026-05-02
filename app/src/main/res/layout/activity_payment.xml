@@ -42,7 +42,8 @@
             android:layout_height="55dp"
             android:layout_weight="1"
             android:hint="MM/YY"
-            android:inputType="number"
+            android:inputType="text"
+            android:maxLength="5"
             android:background="@android:drawable/editbox_background"
             android:padding="12dp"
             android:layout_marginEnd="5dp"/>

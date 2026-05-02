@@ -39,11 +39,13 @@
             android:padding="16dp">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cvOrderCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="15dp"
-                app:cardElevation="4dp"> <LinearLayout
+                app:cardElevation="4dp"
+                android:visibility="gone"> <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -89,7 +91,7 @@
                     android:id="@+id/tvWashCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Washes used: 2 of 5"
+                    android:text="Washes used: 0 of 5"
                     android:textStyle="bold"
                     android:textSize="14sp"/>
 
@@ -99,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:max="5"
-                    android:progress="2"
+                    android:progress="0"
                     android:progressTint="#0984E3"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="12dp"/>
@@ -120,7 +122,7 @@
                         android:id="@+id/tvDaysLeft"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Expires in 18 days"
+                        android:text="Expires in 30 days"
                         android:textColor="#D63031"
                         android:textSize="13sp"
                         android:textStyle="bold"
@@ -128,6 +130,17 @@
                 </LinearLayout>
             </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvNoOrdersMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You don't have any active packages."
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textColor="#636E72"
+                android:layout_marginTop="50dp"
+                android:visibility="visible"/>
 
         </LinearLayout>
     </ScrollView>
