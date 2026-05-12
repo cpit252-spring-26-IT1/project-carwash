@@ -1,20 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="#FFFFFF"
-    tools:context=".activities.CashierActivity">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="#F8F9FA"
+        tools:context=".activities.CashierActivity">
 
     <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="#000000"/>
+            android:id="@+id/tvLoggedInCashier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logged in as: Staff"
+            android:textSize="14sp"
+            android:textColor="#95A5A6"
+            android:layout_marginBottom="5dp" />
+
+    <TextView
+            android:id="@+id/tvServiceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Verification"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#2C3E50"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="40dp"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+        <EditText
+                android:id="@+id/etSearchInput"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:hint="Phone or Order ID"
+                android:inputType="phone"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp" />
+
+        <ImageButton
+                android:id="@+id/btnScanQR"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="12dp"
+                android:background="@android:drawable/btn_default"
+                android:src="@android:drawable/ic_menu_camera"
+                android:scaleType="centerInside"
+                android:contentDescription="Scan QR Code" />
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Check Balance"
+            android:backgroundTint="#3498DB"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="40dp"/>
+
+    <LinearLayout
+            android:id="@+id/layoutCustomerDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:elevation="4dp">
+
+        <TextView
+                android:id="@+id/tvCustomerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Customer: --"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#34495E"
+                android:layout_marginBottom="12dp"/>
+
+        <TextView
+                android:id="@+id/tvCarType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Car Type: --"
+                android:textSize="18sp"
+                android:layout_marginBottom="10dp"/>
+
+        <TextView
+                android:id="@+id/tvPackageType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Package: --"
+                android:textSize="18sp"
+                android:layout_marginBottom="15dp"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#D5D8DC"
+                android:layout_marginBottom="15dp"/>
+
+        <TextView
+                android:id="@+id/tvBalanceStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remaining: 0 Washes"
+                android:textStyle="bold"
+                android:textColor="#E74C3C"
+                android:textSize="24sp"/>
+    </LinearLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    <Button
+            android:id="@+id/btnConfirmWash"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Deduct a Wash"
+            android:backgroundTint="#27AE60"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:enabled="false"
+            android:layout_marginBottom="60dp" />
 
 </LinearLayout>
