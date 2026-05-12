@@ -1,9 +1,11 @@
 package sa.edu.kau.fcit.cpit252.carwash.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +20,11 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.zxing.BarcodeFormat;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import sa.edu.kau.fcit.cpit252.carwash.R;
+import sa.edu.kau.fcit.cpit252.carwash.database.DatabaseManager;
 
 public class OrdersActivity extends AppCompatActivity {
     private Button btnBackToHome;
@@ -31,6 +36,8 @@ public class OrdersActivity extends AppCompatActivity {
     private TextView tvDaysLeft;
     private TextView tvNoOrdersMessage;
     private ProgressBar pbWashes;
+    private ImageView ivOrderQr;
+    private TextView tvOrderId;
     private ListenerRegistration orderListener;
 
     @Override
@@ -47,47 +54,62 @@ public class OrdersActivity extends AppCompatActivity {
         tvWashCount = findViewById(R.id.tvWashCount);
         tvDaysLeft = findViewById(R.id.tvDaysLeft);
         pbWashes = findViewById(R.id.pbWashes);
+        ivOrderQr = findViewById(R.id.ivOrderQr);
+        tvOrderId = findViewById(R.id.tvOrderId);
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser currentUser = DatabaseManager.getInstance().getAuth().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            orderListener = db.collection("Orders").document(userId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(DocumentSnapshot snapshot, FirebaseFirestoreException error) {
-                    if (error != null) {
-                        Toast.makeText(OrdersActivity.this, "Failed to load orders.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if (snapshot != null && snapshot.exists()) {
-                        tvNoOrdersMessage.setVisibility(View.GONE);
-                        cvOrderCard.setVisibility(View.VISIBLE);
-
-                        String packageName = snapshot.getString("packageName");
-                        String packagePrice = snapshot.getString("packagePrice");
-                        String vehicle = snapshot.getString("vehicle");
-                        String washesStr = snapshot.getString("washesUsed");
-                        String maxWashesStr = snapshot.getString("maxWashes");
-                        String daysLeft = snapshot.getString("daysLeft");
-
-                        tvOrderName.setText(packageName);
-                        tvOrderPrice.setText(packagePrice);
-                        tvCarInfo.setText("Vehicle: " + vehicle);
-                        tvWashCount.setText("Washes used: " + washesStr + " of " + maxWashesStr);
-                        tvDaysLeft.setText("Expires in " + daysLeft + " days");
-
-                        if (washesStr != null) {
-                            pbWashes.setProgress(Integer.parseInt(washesStr));
+            orderListener = DatabaseManager.getInstance().getDb()
+                    .collection("Orders")
+                    .whereEqualTo("userId", userId)
+                    .addSnapshotListener((snapshots, error) -> {
+                        if (error != null) {
+                            Toast.makeText(OrdersActivity.this, "Failed to load orders.", Toast.LENGTH_SHORT).show();
+                            return;
                         }
 
-                    } else {
-                        cvOrderCard.setVisibility(View.GONE);
-                        tvNoOrdersMessage.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
+                        DocumentSnapshot activeOrder = null;
+                        if (snapshots != null) {
+                            for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                                if ("active".equals(doc.getString("status"))) {
+                                    activeOrder = doc;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (activeOrder != null) {
+                            tvNoOrdersMessage.setVisibility(View.GONE);
+                            cvOrderCard.setVisibility(View.VISIBLE);
+
+                            String packageName = activeOrder.getString("packageName");
+                            String packagePrice = activeOrder.getString("packagePrice");
+                            String vehicle = activeOrder.getString("vehicle");
+                            String washesStr = activeOrder.getString("washesUsed");
+                            String maxWashesStr = activeOrder.getString("maxWashes");
+                            String daysLeft = activeOrder.getString("daysLeft");
+                            String shortCode = activeOrder.getString("shortCode");
+
+                            tvOrderName.setText(packageName);
+                            tvOrderPrice.setText(packagePrice);
+                            tvCarInfo.setText("Vehicle: " + vehicle);
+                            tvWashCount.setText("Washes used: " + washesStr + " of " + maxWashesStr);
+                            refreshDaysLeft(activeOrder);
+                            tvOrderId.setText("Order ID: " + shortCode);
+
+                            if (washesStr != null) {
+                                pbWashes.setProgress(Integer.parseInt(washesStr));
+                            }
+
+                            generateQrCode(shortCode);
+
+                        } else {
+                            cvOrderCard.setVisibility(View.GONE);
+                            tvNoOrdersMessage.setVisibility(View.VISIBLE);
+                        }
+                    });
         }
 
         btnBackToHome.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +120,44 @@ public class OrdersActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    private void generateQrCode(String orderId) {
+        try {
+            BarcodeEncoder encoder = new BarcodeEncoder();
+            Bitmap bitmap = encoder.encodeBitmap(orderId, BarcodeFormat.QR_CODE, 500, 500);
+            ivOrderQr.setImageBitmap(bitmap);
+            android.util.Log.d("OrdersActivity", "QR generated for " + orderId);
+        } catch (Throwable t) {
+            android.util.Log.e("OrdersActivity", "QR generation failed", t);
+            Toast.makeText(this, "QR error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
 
+    private static final int VALIDITY_DAYS = 30;
+
+    private void refreshDaysLeft(DocumentSnapshot order) {
+        com.google.firebase.Timestamp createdAt = order.getTimestamp("createdAt");
+        if (createdAt == null) {
+            tvDaysLeft.setText("Expires in " + VALIDITY_DAYS + " days");
+            return;
+        }
+
+        long elapsedMs = System.currentTimeMillis() - createdAt.toDate().getTime();
+        long elapsedDays = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(elapsedMs);
+        long daysLeft = Math.max(0, VALIDITY_DAYS - elapsedDays);
+
+        tvDaysLeft.setText("Expires in " + daysLeft + " days");
+
+        String storedDaysLeft = order.getString("daysLeft");
+        String newDaysLeft = String.valueOf(daysLeft);
+        if (!newDaysLeft.equals(storedDaysLeft)) {
+            order.getReference().update("daysLeft", newDaysLeft);
+        }
+
+        if (daysLeft == 0 && "active".equals(order.getString("status"))) {
+            order.getReference().update("status", "expired");
+        }
     }
 
     @Override

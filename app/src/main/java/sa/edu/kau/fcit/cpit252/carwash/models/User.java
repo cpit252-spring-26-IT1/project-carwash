@@ -23,6 +23,7 @@ public abstract class User {
     public String getEmail() {
         return email;
     }
+    @com.google.firebase.firestore.Exclude
     public String getPassword() {
         return password;
     }

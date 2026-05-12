@@ -9,14 +9,35 @@
         android:background="#F8F9FA"
         tools:context=".activities.CashierActivity">
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="5dp">
+
+        <TextView
             android:id="@+id/tvLoggedInCashier"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Logged in as: Staff"
             android:textSize="14sp"
-            android:textColor="#95A5A6"
-            android:layout_marginBottom="5dp" />
+            android:textColor="#95A5A6" />
+
+        <Button
+            android:id="@+id/btnLogoutCashier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textColor="#E74C3C"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="8dp" />
+    </LinearLayout>
 
     <TextView
             android:id="@+id/tvServiceTitle"
@@ -42,8 +63,8 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="1"
-                android:hint="Phone or Order ID"
-                android:inputType="phone"
+                android:hint="Order ID"
+                android:inputType="textCapCharacters"
                 android:background="@android:drawable/editbox_background"
                 android:padding="12dp" />
 

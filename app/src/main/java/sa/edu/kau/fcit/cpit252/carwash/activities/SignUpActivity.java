@@ -20,6 +20,7 @@ import sa.edu.kau.fcit.cpit252.carwash.factory.UserFactory;
 public class SignUpActivity extends AppCompatActivity {
     private EditText etFirstName, etLastName, etEmail, etPassword;
     private Button btnSignup;
+    private Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,14 @@ public class SignUpActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnSignup = findViewById(R.id.btnSignup);
+        btnBack = findViewById(R.id.btnBack);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
