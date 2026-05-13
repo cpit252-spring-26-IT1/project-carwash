@@ -1,20 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="#FFFFFF"
-    tools:context=".activities.OwnerActivity">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="#F8F9FA"
+        android:gravity="center_horizontal"
+        tools:context=".activities.OwnerActivity">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginBottom="25dp">
+
+        <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textColor="#E74C3C"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:background="@android:color/transparent"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="8dp" />
+    </LinearLayout>
+
 
     <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="#000000"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Dashboard"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#2C3E50"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose an option to manage the system"
+            android:textSize="16sp"
+            android:textColor="#7F8C8D"
+            android:layout_marginBottom="50dp" />
+
+
+    <Button
+            android:id="@+id/btnGoToAnalytics"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="Analytics &amp; Reports"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#34495E"
+            android:layout_marginBottom="30dp"
+            app:cornerRadius="15dp"
+            android:elevation="4dp" />
+
+
+    <Button
+            android:id="@+id/btnManageStaff"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="Manage Staff"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#34495E"
+            android:layout_marginBottom="30dp"
+            app:cornerRadius="15dp"
+            android:elevation="4dp" />
+
+
+    <Button
+            android:id="@+id/btnManageBlacklist"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="Customer Blacklist"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#C0392B"
+            android:layout_marginBottom="30dp"
+            app:cornerRadius="15dp"
+            android:elevation="4dp" />
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
 </LinearLayout>

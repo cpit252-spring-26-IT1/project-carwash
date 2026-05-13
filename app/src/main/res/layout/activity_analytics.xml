@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#F4F7F6">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#34495E"
+            android:padding="20dp">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Business Analytics"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"/>
+
+        <Spinner
+                android:id="@+id/spinnerPeriod"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="15dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:entries="@array/analytics_periods" />
+    </LinearLayout>
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/cardTodayInsights"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginBottom="16dp"
+                    app:cardBackgroundColor="#E8F4FD">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Today's Highlights"
+                            android:textStyle="bold"
+                            android:textColor="#2980B9"
+                            android:layout_marginBottom="10dp"/>
+                    <TextView
+                            android:id="@+id/tvTodayPeak"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="• Busiest Hour: 04:00 PM"
+                            android:textColor="#34495E"
+                            android:layout_marginBottom="5dp"/>
+                    <TextView
+                            android:id="@+id/tvTodayPackage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="• Top Package: Exterior Package"
+                            android:textColor="#E67E22"
+                            android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/cardPeriodInsights"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="6dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weekly/Monthly Operational Insights"
+                            android:textStyle="bold"
+                            android:textColor="#2C3E50"
+                            android:textSize="17sp"
+                            android:layout_marginBottom="15dp"/>
+
+                    <TextView android:id="@+id/tvDay1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🥇 Fri: Peak 4PM - 8PM" android:textColor="#27AE60" android:layout_marginBottom="8dp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/tvDay2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🥈 Sat: Peak 5PM - 9PM" android:textColor="#2980B9" android:layout_marginBottom="8dp" android:textStyle="bold"/>
+                    <TextView android:id="@+id/tvDay3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🥉 Thu: Peak 7PM - 11PM" android:textColor="#8E44AD" android:layout_marginBottom="15dp" android:textStyle="bold"/>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#ECF0F1" android:layout_marginBottom="15dp"/>
+
+                    <TextView android:id="@+id/tvPeriodTopPackage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🔥 Top Package: Internal Clean (145 times)" android:textColor="#E67E22" android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Washes Distribution (Timeline)"
+                    android:textStyle="bold"
+                    android:textColor="#34495E"
+                    android:layout_marginBottom="10dp"/>
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    app:cardCornerRadius="15dp"
+                    android:layout_marginBottom="24dp">
+                <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barChartTimeline"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Packages Popularity (%)"
+                    android:textStyle="bold"
+                    android:textColor="#34495E"
+                    android:layout_marginBottom="10dp"/>
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    app:cardCornerRadius="15dp"
+                    android:layout_marginBottom="24dp">
+                <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pieChartPackages"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                    android:id="@+id/layoutStaff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Staff Performance Today"
+                        android:textStyle="bold"
+                        android:textColor="#34495E"
+                        android:layout_marginBottom="10dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvStaffPerformance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_staff_performance" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

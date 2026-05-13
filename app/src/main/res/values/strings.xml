@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CarWash-project</string>
+    <string-array name="analytics_periods">
+        <item>Today</item>
+        <item>This Week</item>
+        <item>This Month</item>
+    </string-array>
 </resources>

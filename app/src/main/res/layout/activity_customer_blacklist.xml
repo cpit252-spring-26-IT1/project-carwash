@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="#F8F9FA"
+        tools:context=".activities.CustomerBlacklistActivity">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="25dp">
+
+        <TextView
+                android:id="@+id/tvBackBlacklist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Back"
+                android:textColor="#3498DB"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Customer Blacklist"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#2C3E50"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Block or unblock customers"
+            android:textSize="16sp"
+            android:textColor="#7F8C8D"
+            android:layout_gravity="center"
+            android:layout_marginBottom="35dp" />
+
+    <EditText
+            android:id="@+id/etSearchCustomer"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Search by email or name"
+            android:inputType="text"
+            android:background="@android:drawable/editbox_background"
+            android:padding="12dp"
+            android:layout_marginBottom="25dp" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Customers List"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#2C3E50"
+            android:layout_marginBottom="15dp" />
+
+    <TextView
+            android:id="@+id/tvEmptyCustomers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No customers found"
+            android:textSize="16sp"
+            android:textColor="#7F8C8D"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="40dp" />
+
+    <ListView
+            android:id="@+id/listCustomers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="15dp"
+            android:cacheColorHint="@android:color/transparent"
+            tools:listitem="@layout/item_customer_blacklist" />
+
+</LinearLayout>
