@@ -25,8 +25,10 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import sa.edu.kau.fcit.cpit252.carwash.R;
 import sa.edu.kau.fcit.cpit252.carwash.database.DatabaseManager;
+import sa.edu.kau.fcit.cpit252.carwash.observer.WashEventBus;
+import sa.edu.kau.fcit.cpit252.carwash.observer.WashEventListener;
 
-public class OrdersActivity extends AppCompatActivity {
+public class OrdersActivity extends AppCompatActivity implements WashEventListener {
     private Button btnBackToHome;
     private CardView cvOrderCard;
     private TextView tvOrderName;
@@ -39,6 +41,8 @@ public class OrdersActivity extends AppCompatActivity {
     private ImageView ivOrderQr;
     private TextView tvOrderId;
     private ListenerRegistration orderListener;
+    private String currentOrderId;
+    private int lastSeenWashesUsed = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,41 +75,30 @@ public class OrdersActivity extends AppCompatActivity {
                         }
 
                         DocumentSnapshot activeOrder = null;
+                        DocumentSnapshot trackedOrderNow = null;
+
                         if (snapshots != null) {
                             for (DocumentSnapshot doc : snapshots.getDocuments()) {
-                                if ("active".equals(doc.getString("status"))) {
+                                if ("active".equals(doc.getString("status")) && activeOrder == null) {
                                     activeOrder = doc;
-                                    break;
+                                }
+                                if (currentOrderId != null && doc.getId().equals(currentOrderId)) {
+                                    trackedOrderNow = doc;
                                 }
                             }
                         }
 
                         if (activeOrder != null) {
-                            tvNoOrdersMessage.setVisibility(View.GONE);
-                            cvOrderCard.setVisibility(View.VISIBLE);
-
-                            String packageName = activeOrder.getString("packageName");
-                            String packagePrice = activeOrder.getString("packagePrice");
-                            String vehicle = activeOrder.getString("vehicle");
-                            String washesStr = activeOrder.getString("washesUsed");
-                            String maxWashesStr = activeOrder.getString("maxWashes");
-                            String daysLeft = activeOrder.getString("daysLeft");
-                            String shortCode = activeOrder.getString("shortCode");
-
-                            tvOrderName.setText(packageName);
-                            tvOrderPrice.setText(packagePrice);
-                            tvCarInfo.setText("Vehicle: " + vehicle);
-                            tvWashCount.setText("Washes used: " + washesStr + " of " + maxWashesStr);
-                            refreshDaysLeft(activeOrder);
-                            tvOrderId.setText("Order ID: " + shortCode);
-
-                            if (washesStr != null) {
-                                pbWashes.setProgress(Integer.parseInt(washesStr));
-                            }
-
-                            generateQrCode(shortCode);
-
+                            showActiveOrder(activeOrder);
                         } else {
+                            if (trackedOrderNow != null
+                                    && "completed".equals(trackedOrderNow.getString("status"))) {
+                                String pkg = trackedOrderNow.getString("packageName");
+                                WashEventBus.getInstance().publishWashDeducted(currentOrderId, null, pkg);
+                                WashEventBus.getInstance().publishOrderCompleted(currentOrderId);
+                            }
+                            currentOrderId = null;
+                            lastSeenWashesUsed = -1;
                             cvOrderCard.setVisibility(View.GONE);
                             tvNoOrdersMessage.setVisibility(View.VISIBLE);
                         }
@@ -120,6 +113,67 @@ public class OrdersActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void showActiveOrder(DocumentSnapshot activeOrder) {
+        tvNoOrdersMessage.setVisibility(View.GONE);
+        cvOrderCard.setVisibility(View.VISIBLE);
+
+        currentOrderId = activeOrder.getId();
+
+        String packageName = activeOrder.getString("packageName");
+        String packagePrice = activeOrder.getString("packagePrice");
+        String vehicle = activeOrder.getString("vehicle");
+        String washesStr = activeOrder.getString("washesUsed");
+        String maxWashesStr = activeOrder.getString("maxWashes");
+        String shortCode = activeOrder.getString("shortCode");
+
+        tvOrderName.setText(packageName);
+        tvOrderPrice.setText(packagePrice);
+        tvCarInfo.setText("Vehicle: " + vehicle);
+        tvWashCount.setText("Washes used: " + washesStr + " of " + maxWashesStr);
+        refreshDaysLeft(activeOrder);
+        tvOrderId.setText("Order ID: " + shortCode);
+
+        int washesUsed = washesStr == null ? 0 : Integer.parseInt(washesStr);
+        pbWashes.setProgress(washesUsed);
+
+        generateQrCode(shortCode);
+
+        if (lastSeenWashesUsed != -1 && washesUsed > lastSeenWashesUsed) {
+            WashEventBus.getInstance().publishWashDeducted(currentOrderId, null, packageName);
+        }
+        lastSeenWashesUsed = washesUsed;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        WashEventBus.getInstance().subscribe(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        WashEventBus.getInstance().unsubscribe(this);
+    }
+
+    @Override
+    public void onWashDeducted(String orderId, String customerName, String packageName) {
+        if (orderId != null && orderId.equals(currentOrderId)) {
+            Toast.makeText(this,
+                    "✓ A wash has been redeemed at the car wash!",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onOrderCompleted(String orderId) {
+        if (orderId != null && (orderId.equals(currentOrderId))) {
+            Toast.makeText(this,
+                    "Your package has been completed. Thanks for choosing us!",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     private void generateQrCode(String orderId) {

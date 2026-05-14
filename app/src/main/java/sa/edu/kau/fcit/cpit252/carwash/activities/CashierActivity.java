@@ -24,6 +24,7 @@ import sa.edu.kau.fcit.cpit252.carwash.database.DataStore;
 import sa.edu.kau.fcit.cpit252.carwash.database.DatabaseManager;
 import sa.edu.kau.fcit.cpit252.carwash.database.OrderManager;
 import sa.edu.kau.fcit.cpit252.carwash.models.User;
+import sa.edu.kau.fcit.cpit252.carwash.observer.WashEventBus;
 
 public class CashierActivity extends AppCompatActivity {
 
@@ -45,6 +46,7 @@ public class CashierActivity extends AppCompatActivity {
     private String currentCustomerName;
     private String currentVehicle;
     private String currentPackage;
+    private int currentRemaining;
 
     private final ActivityResultLauncher<ScanOptions> qrLauncher =
             registerForActivityResult(new ScanContract(), result -> {
@@ -196,9 +198,20 @@ public class CashierActivity extends AppCompatActivity {
         btnConfirmWash.setEnabled(false);
         OrderManager manager = new OrderManager();
 
+        final String orderIdSnapshot = currentOrderId;
+        final String customerNameSnapshot = currentCustomerName;
+        final String packageSnapshot = currentPackage;
+        final boolean willCompleteOrder = (currentRemaining == 1);
+
         manager.deductWash(currentOrderId, new OrderManager.OperationCallback() {
             @Override
             public void onSuccess() {
+                WashEventBus.getInstance().publishWashDeducted(orderIdSnapshot, customerNameSnapshot, packageSnapshot);
+
+                if (willCompleteOrder) {
+                    WashEventBus.getInstance().publishOrderCompleted(orderIdSnapshot);
+                }
+
                 User cashier = DataStore.getCurrentUser();
                 String cashierName = (cashier == null) ? "Unknown" : cashier.getFullName();
 

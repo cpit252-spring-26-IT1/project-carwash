@@ -25,6 +25,8 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -39,8 +41,10 @@ import java.util.Map;
 import sa.edu.kau.fcit.cpit252.carwash.R;
 import sa.edu.kau.fcit.cpit252.carwash.adapters.StaffPerformanceAdapter;
 import sa.edu.kau.fcit.cpit252.carwash.database.DatabaseManager;
+import sa.edu.kau.fcit.cpit252.carwash.observer.WashEventBus;
+import sa.edu.kau.fcit.cpit252.carwash.observer.WashEventListener;
 
-public class AnalyticsActivity extends AppCompatActivity {
+public class AnalyticsActivity extends AppCompatActivity implements WashEventListener {
 
     private static final int PERIOD_TODAY = 0;
     private static final int PERIOD_WEEK = 1;
@@ -58,6 +62,11 @@ public class AnalyticsActivity extends AppCompatActivity {
     private final List<StaffPerformanceAdapter.Row> staffRows = new ArrayList<>();
     private StaffPerformanceAdapter staffAdapter;
 
+    private int currentPeriod = PERIOD_TODAY;
+
+    private ListenerRegistration reportsListener;
+    private boolean isInitialReportsSync = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +76,6 @@ public class AnalyticsActivity extends AppCompatActivity {
         tvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AnalyticsActivity.this, "Back tapped", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -101,6 +109,54 @@ public class AnalyticsActivity extends AppCompatActivity {
 
 
         loadAnalytics(PERIOD_TODAY);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        WashEventBus.getInstance().subscribe(this);
+
+        isInitialReportsSync = true;
+        reportsListener = DatabaseManager.getInstance().getDb()
+                .collection("WashReports")
+                .addSnapshotListener((snap, err) -> {
+                    if (err != null || snap == null) return;
+
+                    // The first callback contains every existing doc as ADDED.
+                    // Skip it so we don't replay history as live events.
+                    if (isInitialReportsSync) {
+                        isInitialReportsSync = false;
+                        return;
+                    }
+
+                    for (DocumentChange change : snap.getDocumentChanges()) {
+                        if (change.getType() == DocumentChange.Type.ADDED) {
+                            String pkg = change.getDocument().getString("packageName");
+                            WashEventBus.getInstance().publishWashDeducted(null, null, pkg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        WashEventBus.getInstance().unsubscribe(this);
+        if (reportsListener != null) {
+            reportsListener.remove();
+            reportsListener = null;
+        }
+    }
+
+    @Override
+    public void onWashDeducted(String orderId, String customerName, String packageName) {
+        loadAnalytics(currentPeriod);
+        Toast.makeText(this, "Dashboard updated — new wash recorded", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onOrderCompleted(String orderId) {
+        loadAnalytics(currentPeriod);
     }
 
     private void loadAnalytics(int period) {
