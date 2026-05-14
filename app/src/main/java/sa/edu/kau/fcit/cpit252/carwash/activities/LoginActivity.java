@@ -67,6 +67,21 @@ public class LoginActivity extends AppCompatActivity {
                                                 String lName = document.getString("lastName");
                                                 String userEmail = document.getString("email");
 
+                                                if ("CUSTOMER".equals(role)) {
+                                                    Boolean blacklisted = document.getBoolean("blacklisted");
+                                                    if (blacklisted != null && blacklisted) {
+                                                        DatabaseManager.getInstance().getAuth().signOut();
+
+                                                        new android.app.AlertDialog.Builder(LoginActivity.this)
+                                                                .setTitle("Account Blocked")
+                                                                .setMessage("Your account has been blocked. Please contact support for assistance.")
+                                                                .setPositiveButton("OK", null)
+                                                                .setCancelable(false)
+                                                                .show();
+                                                        return;
+                                                    }
+                                                }
+
                                                 User loggedInUser = UserFactory.createUser(role, fName, lName, userEmail, password);
 
                                                 DataStore.setCurrentUser(loggedInUser);
