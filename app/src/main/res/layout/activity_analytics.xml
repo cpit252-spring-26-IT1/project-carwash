@@ -15,6 +15,22 @@
             android:background="#34495E"
             android:padding="20dp">
 
+
+        <TextView
+            android:id="@+id/tvBackAnalytics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="← Back"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground" />
+
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -24,11 +24,9 @@ public class CustomerAdapter extends BaseAdapter {
 
     private final Context context;
 
-    // Full unfiltered lists (the source of truth)
     private final List<String> allUserIds;
     private final List<Customer> allCustomers;
 
-    // Currently displayed lists (filtered view)
     private final List<String> visibleUserIds = new ArrayList<>();
     private final List<Customer> visibleCustomers = new ArrayList<>();
 
@@ -40,15 +38,11 @@ public class CustomerAdapter extends BaseAdapter {
         this.allUserIds = userIds;
         this.allCustomers = customers;
         this.toggleListener = toggleListener;
-        // Initially show everything
         visibleUserIds.addAll(userIds);
         visibleCustomers.addAll(customers);
     }
 
-    /**
-     * Filters the visible list by name or email. Empty query shows everything.
-     * Call adapter.notifyDataSetChanged() after this — done automatically.
-     */
+
     public void filter(String query) {
         visibleUserIds.clear();
         visibleCustomers.clear();
@@ -71,13 +65,9 @@ public class CustomerAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    /**
-     * Call this after the underlying customer list has been refreshed from Firestore
-     * to make the adapter pick up the new data.
-     */
+
     @Override
     public void notifyDataSetChanged() {
-        // If the visible lists haven't been set up yet (initial load), sync them
         if (visibleCustomers.isEmpty() && !allCustomers.isEmpty()) {
             visibleUserIds.clear();
             visibleCustomers.clear();

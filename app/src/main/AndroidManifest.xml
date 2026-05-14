@@ -28,7 +28,7 @@
                 android:name=".activities.StaffManagementActivity"
                 android:exported="false"/>
         <activity
-                android:name=".AnalyticsActivity"
+                android:name=".activities.AnalyticsActivity"
                 android:exported="false"/>
         <activity
                 android:name=".activities.PortraitCaptureActivity"

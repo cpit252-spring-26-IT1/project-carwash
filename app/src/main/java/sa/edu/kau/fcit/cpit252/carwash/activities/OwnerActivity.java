@@ -48,7 +48,7 @@ public class OwnerActivity extends AppCompatActivity {
         btnGoToAnalytics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(OwnerActivity.this, "Analytics coming soon", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(OwnerActivity.this, AnalyticsActivity.class));
             }
         });
 
