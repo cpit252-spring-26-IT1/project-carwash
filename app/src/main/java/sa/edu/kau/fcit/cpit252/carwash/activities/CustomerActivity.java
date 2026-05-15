@@ -17,6 +17,7 @@ import androidx.cardview.widget.CardView;
 
 import sa.edu.kau.fcit.cpit252.carwash.R;
 import sa.edu.kau.fcit.cpit252.carwash.bridge.*;
+import sa.edu.kau.fcit.cpit252.carwash.database.DatabaseManager;
 
 
 import android.graphics.Color;
@@ -81,14 +82,8 @@ public class CustomerActivity extends AppCompatActivity {
         btnPurchase.setOnClickListener(v -> {
             if (selectedPackage.isEmpty()) {
                 Toast.makeText(CustomerActivity.this, "Please select a package first!", Toast.LENGTH_SHORT).show();
-            } else {
-                String selectedVehicle = spinnerCarType.getSelectedItem().toString();
-                Intent intent = new Intent(CustomerActivity.this, PaymentActivity.class);
-                intent.putExtra("price", selectedPrice);
-                intent.putExtra("package_name", selectedPackage);
-                intent.putExtra("vehicle", selectedVehicle);
-                startActivity(intent);
             }
+            checkForActiveOrderThenProceed();
         });
 
         btnMyOrders.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +136,48 @@ public class CustomerActivity extends AppCompatActivity {
         tvPriceFull.setText("SAR " + full.getPrice());
         tvPriceOutside.setText("SAR " + exterior.getPrice());
         tvPriceInside.setText("SAR " + interior.getPrice());
+    }
+
+    private void checkForActiveOrderThenProceed() {
+        String userId = DatabaseManager.getInstance().getAuth().getCurrentUser().getUid();
+
+        DatabaseManager.getInstance().getDb()
+                .collection("Orders")
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(querySnap -> {
+                    boolean hasActive = false;
+                    for (com.google.firebase.firestore.DocumentSnapshot doc : querySnap.getDocuments()) {
+                        if ("active".equals(doc.getString("status"))) {
+                            hasActive = true;
+                            break;
+                        }
+                    }
+
+                    if (hasActive) {
+                        new AlertDialog.Builder(CustomerActivity.this)
+                                .setTitle("Active Package")
+                                .setMessage("You can't buy a new package right now — you still have an active package. "
+                                        + "Use up your remaining washes (or wait for it to expire) before purchasing another.")
+                                .setPositiveButton("OK", null)
+                                .show();
+                    } else {
+                        proceedToPayment();
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(CustomerActivity.this,
+                                "Couldn't verify your packages: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show());
+    }
+
+    private void proceedToPayment() {
+        String selectedVehicle = spinnerCarType.getSelectedItem().toString();
+        Intent intent = new Intent(CustomerActivity.this, PaymentActivity.class);
+        intent.putExtra("price", selectedPrice);
+        intent.putExtra("package_name", selectedPackage);
+        intent.putExtra("vehicle", selectedVehicle);
+        startActivity(intent);
     }
 
 

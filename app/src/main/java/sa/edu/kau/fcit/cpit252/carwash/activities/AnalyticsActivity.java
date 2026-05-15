@@ -121,9 +121,6 @@ public class AnalyticsActivity extends AppCompatActivity implements WashEventLis
                 .collection("WashReports")
                 .addSnapshotListener((snap, err) -> {
                     if (err != null || snap == null) return;
-
-                    // The first callback contains every existing doc as ADDED.
-                    // Skip it so we don't replay history as live events.
                     if (isInitialReportsSync) {
                         isInitialReportsSync = false;
                         return;

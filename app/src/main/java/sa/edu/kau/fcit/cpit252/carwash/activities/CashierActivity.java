@@ -244,7 +244,8 @@ public class CashierActivity extends AppCompatActivity {
                 .setMessage("A wash has been deducted from " + currentCustomerName + ".")
                 .setIcon(R.drawable.baseline_check_24)
                 .setPositiveButton("OK", (d, w) -> {
-                    performSearch(etSearchInput.getText().toString());
+                    etSearchInput.setText("");
+                    clearCustomerCard();
                 })
                 .setCancelable(false)
                 .show();

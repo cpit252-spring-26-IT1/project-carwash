@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Calendar;
+
 import sa.edu.kau.fcit.cpit252.carwash.R;
 import sa.edu.kau.fcit.cpit252.carwash.database.DataStore;
 import sa.edu.kau.fcit.cpit252.carwash.database.OrderManager;
@@ -57,15 +59,37 @@ public class PaymentActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (!expiryDate.contains("/")) {
-                    Toast.makeText(PaymentActivity.this, "Please include the '/' (e.g., 02/26)", Toast.LENGTH_LONG).show();
+                String[] parts = expiryDate.split("/");
+                if (parts.length != 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+                    Toast.makeText(PaymentActivity.this, "Expiry must be in MM/YY format (e.g., 02/26)", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                int month = Integer.parseInt(expiryDate.substring(0, 2));
+                int month, year;
+                try {
+                    month = Integer.parseInt(parts[0].trim());
+                    year = Integer.parseInt(parts[1].trim());
+                } catch (NumberFormatException e) {
+                    Toast.makeText(PaymentActivity.this, "Expiry must be numbers (e.g., 02/26)", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if (month < 1 || month > 12) {
                     Toast.makeText(PaymentActivity.this, "Invalid month! Must be between 01 and 12.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (year < 0 || year > 99) {
+                    Toast.makeText(PaymentActivity.this, "Invalid year! Use YY format (e.g., 26)", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Calendar now = Calendar.getInstance();
+                int currentYearYY = now.get(Calendar.YEAR) % 100;
+                int currentMonth  = now.get(Calendar.MONTH) + 1;
+
+                if (year < currentYearYY || (year == currentYearYY && month < currentMonth)) {
+                    Toast.makeText(PaymentActivity.this, "Card has expired", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
