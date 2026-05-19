@@ -19,6 +19,7 @@ The Car Wash Subscription System is an Android application designed to modernize
     -Owner: To manage staff accounts and monitor daily wash activity reports.
 - Service Records: Automatic digital logging of each wash, including details such as customer name, staff member, package type, date, and time.
 
+Won't implement:
 - Loyalty & Promotions: Support for membership management, rewards, coupons, and discount codes.
 
 
