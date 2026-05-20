@@ -1,13 +1,8 @@
 package sa.edu.kau.fcit.cpit252.carwash.observer;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
-import java.lang.reflect.Field;
-import java.util.List;
-
 
 public class WashEventBusTest {
 
@@ -31,13 +26,6 @@ public class WashEventBusTest {
             completedCount++;
             lastOrderId = orderId;
         }
-    }
-
-    @Before
-    public void clearBusListeners() throws Exception {
-        Field f = WashEventBus.class.getDeclaredField("listeners");
-        f.setAccessible(true);
-        ((List<?>) f.get(WashEventBus.getInstance())).clear();
     }
 
     @Test

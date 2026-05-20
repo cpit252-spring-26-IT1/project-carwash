@@ -70,4 +70,31 @@ public class UserModelTest {
         DataStore.setCurrentUser(null);
         assertNull(DataStore.getCurrentUser());
     }
+
+    @Test
+    public void noArgConstructors_shouldCreateFirebaseCompatibleEmptyUsers() {
+        Customer customer = new Customer();
+        Cashier cashier = new Cashier();
+        Owner owner = new Owner();
+
+        assertNull(customer.getFirstName());
+        assertNull(customer.getLastName());
+        assertNull(customer.getEmail());
+        assertNull(customer.getPassword());
+        assertEquals("CUSTOMER", customer.getRole());
+        assertEquals(0, customer.getLoyaltyPoints());
+        assertFalse(customer.isBlacklisted());
+
+        assertNull(cashier.getFirstName());
+        assertNull(cashier.getLastName());
+        assertNull(cashier.getEmail());
+        assertNull(cashier.getPassword());
+        assertEquals("CASHIER", cashier.getRole());
+
+        assertNull(owner.getFirstName());
+        assertNull(owner.getLastName());
+        assertNull(owner.getEmail());
+        assertNull(owner.getPassword());
+        assertEquals("OWNER", owner.getRole());
+    }
 }
