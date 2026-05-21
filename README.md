@@ -1,4 +1,4 @@
-# Project Name
+<img width="938" height="964" alt="Cashier_Dashboard" src="https://github.com/user-attachments/assets/ae7a636c-744c-4cbf-8913-a1e582220f9a" /># Project Name
 CarWash
 
 ## Description
@@ -32,16 +32,18 @@ To build and run the app, use:
 
 ## Screenshots
 ### Customer:
-![Customer_Dashboard.png](../CarWash/Customer_Dashboard.png)
+<img width="1874" height="965" alt="Customer_Dashboard" src="https://github.com/user-attachments/assets/f444435a-434f-413d-a530-e4fb8976340b" />
+
 
 ### Cashier:
-![Cashier_Dashboard.png](../CarWash/Cashier_Dashboard.png)
+<img width="938" height="964" alt="Cashier_Dashboard" src="https://github.com/user-attachments/assets/3d4d4b7e-059e-471a-aba5-65c294c89810" />
+
 
 ### Owner:
-![Owner_Dashboard.png](../CarWash/Owner_Dashboard.png)
+<img width="1878" height="1212" alt="Owner_Dashboard" src="https://github.com/user-attachments/assets/1c3f3f5b-c03b-4b38-9a94-8a4ff948a549" />
+
 
 ## Use of Generative AI Tools Disclosure
-## Use of Generative AI Tools
 
 In line with the CPIT-252 course policy, we disclose that Claude, Anthropic was used as a support tool during this project.
 
