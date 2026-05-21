@@ -1,4 +1,4 @@
-<img width="1874" height="965" alt="Customer_Dashboard" src="https://github.com/user-attachments/assets/cfdaf83d-5a26-42af-9e9d-58e87c26dbee" /># Project Name
+# Project Name
 CarWash
 
 ## Description
