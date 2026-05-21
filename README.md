@@ -32,15 +32,15 @@ To build and run the app, use:
 
 ## Screenshots
 ### Customer:
-<img width="1874" height="965" alt="Customer_Dashboard" src="https://github.com/user-attachments/assets/f444435a-434f-413d-a530-e4fb8976340b" />
+<img width="700" alt="Customer_Dashboard" src="https://github.com/user-attachments/assets/f444435a-434f-413d-a530-e4fb8976340b" />
 
 
 ### Cashier:
-<img width="938" height="964" alt="Cashier_Dashboard" src="https://github.com/user-attachments/assets/3d4d4b7e-059e-471a-aba5-65c294c89810" />
+<img width="700" alt="Cashier_Dashboard" src="https://github.com/user-attachments/assets/3d4d4b7e-059e-471a-aba5-65c294c89810" />
 
 
 ### Owner:
-<img width="1878" height="1212" alt="Owner_Dashboard" src="https://github.com/user-attachments/assets/1c3f3f5b-c03b-4b38-9a94-8a4ff948a549" />
+<img width="700" alt="Owner_Dashboard" src="https://github.com/user-attachments/assets/1c3f3f5b-c03b-4b38-9a94-8a4ff948a549" />
 
 
 ## Use of Generative AI Tools Disclosure
