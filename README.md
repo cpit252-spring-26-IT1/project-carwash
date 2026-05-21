@@ -31,8 +31,24 @@ To build and run the app, use:
 ```
 
 ## Screenshots
+### Customer:
+![Customer_Dashboard.png](../CarWash/Customer_Dashboard.png)
 
+### Cashier:
+![Cashier_Dashboard.png](../CarWash/Cashier_Dashboard.png)
 
-## License
+### Owner:
+![Owner_Dashboard.png](../CarWash/Owner_Dashboard.png)
+
+## Use of Generative AI Tools Disclosure
+## Use of Generative AI Tools
+
+In line with the CPIT-252 course policy, we disclose that Claude, Anthropic was used as a support tool during this project.
+
+Claude helped with project planning, code improvement, debugging, testing support, and documentation. The team guided the tool using specific project requirements and did not use the AI output blindly.
+
+All AI-assisted work was reviewed, modified, understood, and tested by the team before submission. The team understands the project implementation and can explain the main design decisions.
+
+### License
 
 Pick a project license
